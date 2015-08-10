@@ -11,7 +11,7 @@ Events.prototype.on = function(name, callback){
 	}else{
 		Events.events[name].push(callback)
 	}
-	
+
 }
 
 Events.prototype.emit = function(name){
@@ -19,7 +19,9 @@ Events.prototype.emit = function(name){
 		//we have some options
 
 		for (var key in Events.events[name]) {
-			Events.events[name][key]()
+			if(typeof Events.events[name][key] == 'function'){
+				Events.events[name][key]()
+			}
 		}
 
 	}
