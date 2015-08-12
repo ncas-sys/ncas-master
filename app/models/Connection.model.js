@@ -1,11 +1,11 @@
-function Ui(socket, type, name, locale){
+function Ui(socket, type, name, locale, ip){
 	this.socket = socket;
 	this.connection_id = makeid(),
 	this.auth = 'none';
 	this.type=type;
 	this.name=name;
 	this.locale = locale
-	
+	this.ip = ip
 }
 
 

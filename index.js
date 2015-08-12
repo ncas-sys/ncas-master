@@ -1,7 +1,13 @@
 "use strict";
 
-var io = require('socket.io').listen(5656);
+var io = new require('socket.io').listen(5656);
 
 var events = require('./app/services/Events.service')()
-var commands = require('./app/services/Commands.service')(io, events)
-var comms = require('./app/services/Comms.service')(io, events)
+var connections = require('./app/services/Connections.service')();
+
+var comms = require('./app/services/Comms.service')(io, events, connections)
+
+
+var control = require('./app/services/Control.service')(events, comms, connections)
+
+var log = require('./app/services/Log.service')(events)
