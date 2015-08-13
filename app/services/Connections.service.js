@@ -17,7 +17,6 @@ Connections.prototype.newConnection = function(socket, obj, ip){
 		id: newCon.connection_id,
 		ip: newCon.ip
 	}
-	emitToAllControllers('NewConnection', obj, newCon.connection_id);
 	return newCon;
 }
 Connections.prototype.deleteConnection = function(con_id){

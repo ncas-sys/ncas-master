@@ -9,7 +9,7 @@ function Comms(socket, events, connections){
 		socket.on('Register', function(obj){
 			//create a new connection
 			connection = connections.newConnection(socket, obj, ip);
-
+			Comms.prototype.emitToAllControllers('NewConnection', obj, connection.connection_id);
 			socket.emit('Welcome')
 			setUpListeners(socket, obj, connection)
 		})
@@ -17,7 +17,7 @@ function Comms(socket, events, connections){
 			socket.disconnect()
 			if(typeof connection !='null' && connection!=null){
 				delete Comms.connections.deleteConnection(connection.connection_id);
-				emitToAllControllers('ConnectionGone', connection.connection_id, null);
+				Comms.prototype.emitToAllControllers('ConnectionGone', connection.connection_id, null);
 			}
 		})
 	})
@@ -36,23 +36,26 @@ GiveControllerEverything = function(connection){
 			id: cons[key].connection_id,
 			ip: cons[key].ip
 		}
-		emitToSingeSocket(connection, 'NewConnection', obj)
+		Comms.prototype.emitToSingeSocket(connection, 'NewConnection', obj)
 	}
+	//next, tell them all the statues of stuff
+	Comms.events.emit('SingleControllerConnected', connection);
+	
 }
 
 
 //emit to all controllers, except one - perhaps the one that just registered?
-emitToAllControllers = function(name, obj, exception){
+Comms.prototype.emitToAllControllers = function(name, obj, exception){
 	var cons = Comms.connections.getConnections()
 	for (var key in cons) {
 		if(cons[key].type=='controller' && exception!=key){
-			emitToSingeSocket(cons[key], name, obj)
+			Comms.prototype.emitToSingeSocket(cons[key], name, obj)
 		}
 	}
 }
 
 //emit some info to a specific client
-emitToSingeSocket = function(connection, name, obj){
+Comms.prototype.emitToSingeSocket = function(connection, name, obj){
 	if(connection.locale=='internal'){
 		connection.socket.emit(name, obj)
 	}else{
@@ -69,6 +72,7 @@ setUpListeners = function(socket, obj, connection){
 	if(obj.type=='node'){
 		socket.on('UpdateState', function(obj){
 			//this is from a node, something has changed :/	
+			Comms.events.emit('UpdateState', obj)
 		})
 	}else if(obj.type=='controller'){
 		socket.on('GiveMeEverything', function(){
