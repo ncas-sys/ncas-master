@@ -1,38 +1,70 @@
 var connectionM = require('../models/Connection.model');
-function Connections(){
+var q = require('q');
+
+function Connections(events){
 	c = this;
 	c.connections = {}
-
+	c.events = events
 }
 
-Connections.prototype.newConnection = function(socket, obj, ip){
-	var newCon = new connectionM(socket, obj.type, obj.name, obj.locale, ip);
-	c.connections[newCon.connection_id] = newCon;
-	//alert all sockets about the new user
+
+Connections.prototype.newConnection = function(socket, obj){
+	var newCon = new connectionM(socket, obj.type, obj.name, obj.locale, obj.ip, obj.id);
+	c.connections[newCon.id] = newCon;
 	var obj = {
 		name: newCon.name,
 		type: newCon.type,
 		auth: newCon.auth,
 		locale: newCon.locale,
-		id: newCon.connection_id,
+		id: newCon.id,
 		ip: newCon.ip
 	}
-	emitToAllControllers('NewConnection', obj, newCon.connection_id);
+	c.events.emit('WelcomeController', obj)
 	return newCon;
 }
+
 Connections.prototype.deleteConnection = function(con_id){
+	c.events.emit('ConnectionGone', con_id)
 	delete c.connections[con_id]
 }
 
 Connections.prototype.getConnections = function(){
 	return c.connections;
 }
-Connections.prototype.AuthAttempt = function(password, conenction){
-	console.log(c.connections[conenction].name, 'is attempting to auth with', password)
+
+Connections.prototype.setAuth = function(conn_id, auth){
+	c.connections[conn_id].auth = auth;
+}
+
+Connections.prototype.getConnection = function(conn_id){
+	return c.connections[conn_id];
+}
+
+Connections.prototype.wipeAllExistingExternalConnections = function(tellPeople){
+	var def = q.defer();
+	for (var key in c.connections) {
+		if(c.connections[key].locale=='external'){
+			if(tellPeople){
+				Connections.prototype.deleteConnection(key)
+			}else{
+				delete c.connections[key];	
+			}
+		}
+	}
+	def.resolve(true);
+	return def.promise;
 }
 
 
 
-module.exports = function(){
-	return new Connections();
+
+Connections.prototype.DeleteExternalConnection = function(con_id){
+	c.events.emit('ConnectionGone', con_id)
+	delete c.connections[con_id]
+}
+
+
+
+module.exports = function(events){
+	return new Connections(events);
 }

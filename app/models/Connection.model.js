@@ -1,6 +1,10 @@
-function Ui(socket, type, name, locale, ip){
+function Ui(socket, type, name, locale, ip, id){
 	this.socket = socket;
-	this.connection_id = makeid(),
+	if(typeof id=='undefined'){
+		this.id = makeid()
+	}else{
+		this.id = id;
+	}
 	this.auth = 'none';
 	this.type=type;
 	this.name=name;
