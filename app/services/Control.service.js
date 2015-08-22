@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 function Control(events, comms, connections, fans, DB){
 	Control.DB = DB;
-=======
-function Control(events, comms, connections, fans){
->>>>>>> 2b367309f31c64725d9ba8a5b9951f07e622cace
 	Control.events = events;
 	Control.comms = comms;
 	Control.connections = connections
@@ -24,7 +20,6 @@ function Control(events, comms, connections, fans){
 	Control.events.on('UpdateState', function(obj){
 		Control.prototype.updateState(obj)
 	})
-<<<<<<< HEAD
 
 	Control.events.on('ToMaster', function(obj){
 		ToMaster(obj);
@@ -35,16 +30,12 @@ function Control(events, comms, connections, fans){
 
 
 	Control.events.on('SingleControllerConnected', function(connection_id){
-=======
-	Control.events.on('SingleControllerConnected', function(connection){
->>>>>>> 2b367309f31c64725d9ba8a5b9951f07e622cace
 		//tell this one guy about all the statues of the stuff
 		for (var key in Control.states) {
 			var obj = {
 				node: key,
 				value: Control.states[key]
 			}
-<<<<<<< HEAD
 			Control.comms.emitToSingeSocket(connection_id, 'UpdateState', obj)
 		}
 	})
@@ -153,35 +144,10 @@ PerformAction = function(action){
 	Control.events.emit(action);
 	Control.comms.emitToAllNodes(action, null, null);
 }
-=======
-			Control.comms.emitToSingeSocket(connection, 'UpdateState', obj)
-		}
-		
-	})
-	
-	fans.sweepsStatus();
-	fans.extractorsStatus();
-}
-
-Control.prototype.updateState = function(obj){
-	Control.states[obj.node] = obj.value;
-	Control.comms.emitToAllControllers('UpdateState', obj, false);
-}
 
 
 
-
->>>>>>> 2b367309f31c64725d9ba8a5b9951f07e622cace
-
-
-
-
-<<<<<<< HEAD
 
 module.exports = function(events, comms, connections, fans, DB){
 	return new Control(events, comms, connections, fans, DB)
-=======
-module.exports = function(events, comms, connections, fans){
-	return new Control(events, comms, connections, fans)
->>>>>>> 2b367309f31c64725d9ba8a5b9951f07e622cace
 }

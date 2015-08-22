@@ -2,7 +2,6 @@ function Fans(Gpio, events){
 	Fans.Gpio = Gpio
 	Fans.events = events
 	
-<<<<<<< HEAD
 	Fans.sweeps = new Gpio(4, 'high')
 	Fans.sweepsSwitch = new Gpio(27, 'in', 'both');
 	Fans.sweepLastUpdate = null;
@@ -13,16 +12,6 @@ function Fans(Gpio, events){
 	Fans.extractorsSwitch = new Gpio(22, 'in', 'both')
 	Fans.extractorsLastUpdate = null;
 	Fans.extractorsSwitchLast = null;
-=======
-	Fans.sweeps = new Gpio(17, 'high')
-	Fans.sweepsSwitch = new Gpio(23, 'in', 'both');
-	Fans.sweepLastUpdate = null;
-	
-	
-	Fans.extractors = new Gpio(22, 'high')
-	Fans.extractorsSwitch = new Gpio(24, 'in', 'both')
-	Fans.extractorsLastUpdate = null;
->>>>>>> 2b367309f31c64725d9ba8a5b9951f07e622cace
 	
 	
 	Fans.sweepsStatus = 0;
@@ -32,24 +21,14 @@ function Fans(Gpio, events){
 		var test = new Date().getTime();
 		Fans.sweepLastUpdate = test
 		setTimeout(function(){
-<<<<<<< HEAD
 			if(test==Fans.sweepLastUpdate && value!=Fans.sweepsSwitchLast){
 				Fans.sweepsSwitchLast = value;
 				//console.log('sweeps swicthed', value);
-=======
-			if(test==Fans.sweepLastUpdate){
-				
-				console.log('sweeps swicthed', value);
->>>>>>> 2b367309f31c64725d9ba8a5b9951f07e622cace
 				if(Fans.sweepsStatus==0){
 					Fans.prototype.sweepsOn();
 				}else{
 					Fans.prototype.sweepsOff();
 				}
-<<<<<<< HEAD
-				
-=======
->>>>>>> 2b367309f31c64725d9ba8a5b9951f07e622cace
 			}
 		}, 500);
 	})
@@ -59,14 +38,9 @@ function Fans(Gpio, events){
 		var test = new Date().getTime();
 		Fans.extractorsLastUpdate = test
 		setTimeout(function(){
-<<<<<<< HEAD
 			if(test==Fans.extractorsLastUpdate &&  value!=Fans.extractorsSwitchLast){
 				//console.log('extractors swicthed', value);
 				Fans.extractorsSwitchLast = value;
-=======
-			if(test==Fans.extractorsLastUpdate){
-				console.log('extractors swicthed', value);
->>>>>>> 2b367309f31c64725d9ba8a5b9951f07e622cace
 				if(Fans.extractorsStatus==0){
 					Fans.prototype.extractorsOn();
 				}else{
@@ -76,7 +50,6 @@ function Fans(Gpio, events){
 		}, 500);
 	})
 	
-<<<<<<< HEAD
 	Fans.sweeps.read(function(err, value){
 		Fans.sweepSwitchLast = value;
 	})
@@ -117,8 +90,6 @@ function Fans(Gpio, events){
 			Fans.prototype.extractorsOn();
 		}
 	})
-=======
->>>>>>> 2b367309f31c64725d9ba8a5b9951f07e622cace
 	
 	
 }
