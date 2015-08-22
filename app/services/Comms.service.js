@@ -33,6 +33,9 @@ function Comms(io, events, connections, external, DB){
 		})
 	})
 
+	Comms.events.on('SetInitialLightingPosition', function(){
+		Comms.prototype.emitToAllControllers('UpdateState', {"node":"lightingScene", "value": "B/0"})
+	})
 
 	
 	Comms.events.on('ToMaster', function(obj){

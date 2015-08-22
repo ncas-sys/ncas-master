@@ -27,6 +27,8 @@ function DoorContact(Gpio, events){
 	})
 	
 	
+	
+	
 }
 
 module.exports = function(Gpio, events){

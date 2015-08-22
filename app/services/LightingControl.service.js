@@ -19,6 +19,14 @@ function Lighting(Gpio, events){
 		Lighting.prototype.Scene4();
 	})
 	
+	setTimeout(function(){
+		Lighting.prototype.Scene1();
+		Lighting.events.emit('SetInitialLightingPosition');
+		Lighting.events.emit('UpdateState', {node: "lightingScene", value: "B/O"});
+	}, 5000);
+	
+	
+	
 }
 Lighting.prototype.Scene1 = function(){
 	Lighting.prototype.pressButton();
