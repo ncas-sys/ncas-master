@@ -19,7 +19,10 @@ Connections.prototype.newConnection = function(socket, obj){
 		id: newCon.id,
 		ip: newCon.ip
 	}
+<<<<<<< HEAD
 	c.events.emit('WelcomeController', obj)
+=======
+>>>>>>> 2b367309f31c64725d9ba8a5b9951f07e622cace
 	return newCon;
 }
 

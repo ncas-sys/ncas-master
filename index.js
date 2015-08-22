@@ -1,5 +1,6 @@
 "use strict";
 
+<<<<<<< HEAD
 var DB = require('./app/services/DB.service')();
 
 var esocket = require('socket.io-client')('http://178.62.100.233:45654', {
@@ -18,11 +19,25 @@ var lighting = require('./app/services/LightingControl.service')(Gpio, events)
 
 
 var external = require('./app/services/External.service')(esocket, connections, events)
+=======
+var io = new require('socket.io').listen(5656);
+var Gpio = require('onoff').Gpio;
+
+var events = require('./app/services/Events.service')()
+var connections = require('./app/services/Connections.service')();
+var fans = require('./app/services/Fans.service')(Gpio, events)
+
+
+>>>>>>> 2b367309f31c64725d9ba8a5b9951f07e622cace
 
 var comms = require('./app/services/Comms.service')(io, events, connections, external, DB)
 
 var door = require('./app/services/DoorContact.service')(Gpio, events);
 
+<<<<<<< HEAD
 var control = require('./app/services/Control.service')(events, comms, connections, fans, DB)
+=======
+var control = require('./app/services/Control.service')(events, comms, connections, fans)
+>>>>>>> 2b367309f31c64725d9ba8a5b9951f07e622cace
 
 var log = require('./app/services/Log.service')(events)
